@@ -1,0 +1,25 @@
+# CashPe — Render Blueprint (ZERO manual setup)
+# Sirf repo connect karo aur deploy dabao. Koi API key / env dalni nahi.
+# Database automatic banta hai aur DATABASE_URL khud jud jata hai.
+# Firebase chahiye to deploy ke baad Admin Panel -> Settings me
+# sirf Firebase config paste karo (usi se Google login + Firestore sync chalega).
+
+databases:
+  - name: cashpe-db
+    plan: free
+    databaseName: cashpe
+    user: cashpe
+
+services:
+  - type: web
+    name: cashpe
+    env: docker
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: cashpe-db
+          property: connectionString
+      - key: COMMISSION_PERCENT
+        value: "2"
